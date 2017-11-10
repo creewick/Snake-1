@@ -26,6 +26,12 @@ public class Level {
         appleGenerator = new AppleGenerator(applesCount);
     }
 
+    public Level(IFieldObject[][] field, int applesCount, Snake snake) {
+        this.field = field;
+        appleGenerator = new AppleGenerator(applesCount);
+        this.snake = snake;
+    }
+
     public IFieldObject moveSnakeAndReturnOldCell(Vector snakeDirection) {
         SnakePart currentSnakePart = snake.getHead().getChild();
         Vector parentDirection = snake.getHead().getDirection();
