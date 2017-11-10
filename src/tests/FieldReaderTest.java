@@ -1,6 +1,10 @@
-package snake;
+package tests;
 
 import org.junit.Test;
+import snake.Direction;
+import snake.FieldReader;
+import snake.fieldObjects.listed.SnakePart;
+import snake.Vector;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

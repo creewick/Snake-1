@@ -1,5 +1,8 @@
 package snake;
 
+import snake.fieldObjects.Apple;
+import snake.fieldObjects.Empty;
+
 import java.util.ArrayList;
 import java.util.Random;
 

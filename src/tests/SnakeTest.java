@@ -1,6 +1,12 @@
-package snake;
+package tests;
 
 import org.junit.Test;
+import snake.*;
+import snake.fieldObjects.Apple;
+import snake.fieldObjects.Empty;
+import snake.fieldObjects.Wall;
+import snake.fieldObjects.listed.SnakeHead;
+import snake.fieldObjects.listed.SnakePart;
 
 import static org.junit.Assert.*;
 

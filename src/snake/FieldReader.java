@@ -1,5 +1,11 @@
 package snake;
 
+import snake.fieldObjects.Apple;
+import snake.fieldObjects.Empty;
+import snake.fieldObjects.Wall;
+import snake.fieldObjects.listed.SnakeHead;
+import snake.fieldObjects.listed.SnakePart;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;

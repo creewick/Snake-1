@@ -1,4 +1,7 @@
-package snake;
+package snake.fieldObjects.listed;
+
+import snake.ImageFileName;
+import snake.Vector;
 
 @ImageFileName(fileNames = "snakehead.jpg")
 public class SnakeHead extends SnakePart {

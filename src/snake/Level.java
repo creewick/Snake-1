@@ -1,5 +1,8 @@
 package snake;
 
+import snake.fieldObjects.Empty;
+import snake.fieldObjects.listed.SnakePart;
+
 public class Level {
     private IFieldObject[][] field;
     private Snake snake;

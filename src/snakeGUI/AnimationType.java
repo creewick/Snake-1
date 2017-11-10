@@ -1,5 +1,8 @@
 package snakeGUI;
 
+import snakeGUI.animationObjects.ChainAnimationObject;
+import snakeGUI.animationObjects.ElementAnimationObject;
+
 import java.util.HashMap;
 
 public final class AnimationType {

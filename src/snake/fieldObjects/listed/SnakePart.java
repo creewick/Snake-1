@@ -1,5 +1,9 @@
-package snake;
+package snake.fieldObjects.listed;
 
+import snake.Game;
+import snake.IListedFieldObject;
+import snake.ImageFileName;
+import snake.Vector;
 import snakeGUI.TypeOfElement;
 
 @ImageFileName(type = TypeOfElement.CHAIN,

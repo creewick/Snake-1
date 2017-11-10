@@ -2,6 +2,7 @@ package snakeGUI;
 
 import javafx.util.Pair;
 import snake.*;
+import snakeGUI.animationObjects.ElementAnimationObject;
 
 import javax.swing.*;
 import java.awt.*;

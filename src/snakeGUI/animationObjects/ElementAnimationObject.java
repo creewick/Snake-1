@@ -1,6 +1,8 @@
-package snakeGUI;
+package snakeGUI.animationObjects;
 
 import snake.IFieldObject;
+import snakeGUI.AnimationObject;
+
 import java.util.HashMap;
 
 public class ElementAnimationObject extends AnimationObject {

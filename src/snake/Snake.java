@@ -1,5 +1,8 @@
 package snake;
 
+import snake.fieldObjects.listed.SnakeHead;
+import snake.fieldObjects.listed.SnakePart;
+
 public class Snake {
     private SnakePart tail;
     private SnakeHead head;
