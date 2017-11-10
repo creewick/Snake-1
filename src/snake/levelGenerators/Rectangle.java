@@ -6,14 +6,18 @@ public class Rectangle {
     private Vector position;
     private Vector size;
 
-    public int Top = position.y;
-    public int Bottom = position.y + size.y;
-    public int Left = position.x;
-    public int Right = position.x + size.x;
+    private int top;
+    private int bottom;
+    private int left;
+    private int right;
 
     public Rectangle(Vector position, Vector size) {
         setPosition(position);
         this.size = size;
+        top = position.y;
+        bottom = position.y + size.y;
+        left = position.x;
+        right = position.x + size.x;
     }
 
     public Vector getPosition() {
@@ -29,9 +33,25 @@ public class Rectangle {
     }
 
     public boolean isIntersectWith(Rectangle rectangle) {
-        return (Left < rectangle.Left && Right > rectangle.Left ||
-                Left < rectangle.Right && Right > rectangle.Right)
-                && (Bottom > rectangle.Bottom && Top < rectangle.Bottom ||
-                Bottom > rectangle.Top && Top < rectangle.Top);
+        return (left < rectangle.left && right > rectangle.left ||
+                left < rectangle.right && right > rectangle.right)
+                && (bottom > rectangle.bottom && top < rectangle.bottom ||
+                bottom > rectangle.top && top < rectangle.top);
+    }
+
+    public int getTop() {
+        return top;
+    }
+
+    public int getBottom() {
+        return bottom;
+    }
+
+    public int getLeft() {
+        return left;
+    }
+
+    public int getRight() {
+        return right;
     }
 }
