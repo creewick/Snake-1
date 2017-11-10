@@ -6,4 +6,5 @@ public interface ILevelGenerator {
             int height,
             int applesOnFieldAmount,
             int applesToGenerateAmount);
+
 }
