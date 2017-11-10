@@ -1,7 +1,7 @@
 package snake;
 
 import snakeGUI.Settings;
-import snakeGUI.TypeOfElement;
+import snakeGUI.animation.TypeOfElement;
 
 import java.lang.annotation.*;
 

@@ -1,4 +1,4 @@
-package snakeGUI;
+package snakeGUI.animation;
 
 import snake.IFieldObject;
 

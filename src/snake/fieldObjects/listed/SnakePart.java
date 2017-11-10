@@ -4,7 +4,7 @@ import snake.Game;
 import snake.IListedFieldObject;
 import snake.ImageFileName;
 import snake.Vector;
-import snakeGUI.TypeOfElement;
+import snakeGUI.animation.TypeOfElement;
 
 @ImageFileName(type = TypeOfElement.CHAIN,
         fileNames = {"snakepart-left.jpg", "snakepart-right.jpg"})

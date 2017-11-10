@@ -1,7 +1,7 @@
-package snakeGUI;
+package snakeGUI.animation;
 
-import snakeGUI.animationObjects.ChainAnimationObject;
-import snakeGUI.animationObjects.ElementAnimationObject;
+import snakeGUI.animation.animationObjects.ChainAnimationObject;
+import snakeGUI.animation.animationObjects.ElementAnimationObject;
 
 import java.util.HashMap;
 

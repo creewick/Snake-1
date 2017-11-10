@@ -1,8 +1,8 @@
-package snakeGUI.animationObjects;
+package snakeGUI.animation.animationObjects;
 
 import snake.IFieldObject;
 import snake.IListedFieldObject;
-import snakeGUI.AnimationObject;
+import snakeGUI.animation.AnimationObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
