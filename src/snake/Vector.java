@@ -34,3 +34,4 @@ public class Vector {
         return new Vector(x + other.x, y + other.y);
     }
 }
+
