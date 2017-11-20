@@ -5,5 +5,5 @@ public final class Settings {
             System.getProperty("user.dir") + "/images/";
     public static final String DEFAULT_IMAGE_FILE_NAME = "default.png";
 
-    static final int FREQUENCY = 200;
+    static final int FREQUENCY = 400;
 }

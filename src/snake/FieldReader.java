@@ -127,8 +127,8 @@ public class FieldReader {
         for (Vector anOffset : offset) {
             Vector neighbour = center.getPosition().sum(anOffset);
             if (neighbour.x >= 0 && neighbour.y >= 0 &&
-                    neighbour.x <= field[0].length &&
-                    neighbour.y <= field.length) {
+                    neighbour.x < field[0].length &&
+                    neighbour.y < field.length) {
                 neighbours.add(field[neighbour.y][neighbour.x]);
             }
         }

@@ -30,15 +30,15 @@ public class RoomLevelGenerator implements ILevelGenerator {
     private HashMap<Leaf, Leaf> makeNeighbourConnections(List<Leaf> leafs) {
         HashMap<Leaf, Leaf> result = new HashMap<>();
         for (Leaf leaf : leafs) {
-            for (Leaf neigbour : getLeafNeigbours(leaf, leafs)) {
-                result.put(leaf, neigbour);
+            for (Leaf neighbour : getLeafNeighbours(leaf, leafs)) {
+                result.put(leaf, neighbour);
             }
         }
 
         return result;
     }
 
-    private List<Leaf> getLeafNeigbours(Leaf current, List<Leaf> leafs) {
+    private List<Leaf> getLeafNeighbours(Leaf current, List<Leaf> leafs) {
         List<Leaf> result = new ArrayList<>();
 
         for (Leaf leaf : leafs) {
@@ -61,18 +61,17 @@ public class RoomLevelGenerator implements ILevelGenerator {
         return result;
     }
 
-    private List<Rectangle> generateHalls(HashMap<Leaf, Rectangle> rectangles, HashMap<Leaf, Leaf> neighbours) {
+    private List<Rectangle> generateHalls(
+            HashMap<Leaf, Rectangle> rectangles,
+            HashMap<Leaf, Leaf> neighbours) {
+
         List<Rectangle> result = new ArrayList<>();
 
         for (Map.Entry<Leaf, Rectangle> pair : rectangles.entrySet()) {
-            if (neighbours.containsKey(pair.getKey())) {
-                Leaf a = neighbours.get(pair.getKey());
-                if (rectangles.containsKey(a)) {
-                    result.addAll(getHall(
-                            pair.getValue(),
-                            rectangles.get(a)));
-                }
-            }
+            Leaf a = neighbours.get(pair.getKey());
+            if (!rectangles.containsKey(a))
+                continue;
+            result.addAll(getHall(pair.getValue(), rectangles.get(a)));
         }
 
         return result;
@@ -87,21 +86,21 @@ public class RoomLevelGenerator implements ILevelGenerator {
             if (pointsToConnect.get(i).equals(pointsToConnect.get(i + 1)))
                 continue;
 
-            result.add(generateHallPart(pointsToConnect, i));
+            result.add(generateHallPart(pointsToConnect.get(i), pointsToConnect.get(i + 1)));
         }
 
         return result;
     }
 
-    private Rectangle generateHallPart(List<Vector> pointsToConnect, int i) {
-        int minX = Math.min(pointsToConnect.get(i).x, pointsToConnect.get(i + 1).x);
-        int maxX = Math.max(pointsToConnect.get(i).x, pointsToConnect.get(i + 1).x);
-        int minY = Math.min(pointsToConnect.get(i).y, pointsToConnect.get(i + 1).y);
-        int maxY = Math.max(pointsToConnect.get(i).y, pointsToConnect.get(i + 1).y);
+    private Rectangle generateHallPart(Vector first, Vector second) {
+        int minX = Math.min(first.x, second.x);
+        int maxX = Math.max(first.x, second.x);
+        int minY = Math.min(first.y, second.y);
+        int maxY = Math.max(first.y, second.y);
 
         return new Rectangle(
                 new Vector(minX, minY),
-                new Size(Math.max(maxX - minX, 1), Math.max(maxY - minY, 1))
+                new Size(Math.max(maxX - minX + 1, 1), Math.max(maxY - minY + 1, 1))
         );
     }
 
