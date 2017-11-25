@@ -20,10 +20,10 @@ public class Level {
         field[snakePosition.y][snakePosition.x] = snake.getHead();
     }
 
-    public Level(FieldReader reader, int applesCount) {
+    public Level(FieldReader reader, int applesCountToGenerate) {
         field = reader.getField();
         snake = reader.getSnake();
-        appleGenerator = new AppleGenerator(applesCount);
+        appleGenerator = new AppleGenerator(applesCountToGenerate);
     }
 
     public Level(IFieldObject[][] field, int applesCount, Snake snake) {

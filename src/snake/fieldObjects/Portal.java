@@ -31,15 +31,16 @@ public class Portal implements IFieldObject {
     public void intersectWithSnake(Game game) {
         SnakeHead snakeHead = game.getCurrentLevel().getSnake().getHead();
         Vector snakeHeadDirection = snakeHead.getChild().getDirection();
-        Vector positionShouldBe = exit.position.sum(snakeHeadDirection).subtract(snakeHead.getPosition());
+        Vector directionByPortal = exit.position.sum(snakeHeadDirection).subtract(snakeHead.getPosition());
         Vector levelSize = game.getCurrentLevel().getLevelSize();
-        positionShouldBe = new Vector(
-                (positionShouldBe.x + levelSize.x) % levelSize.x,
-                (positionShouldBe.y + levelSize.y) % levelSize.y
+        directionByPortal = new Vector(
+                (directionByPortal.x + levelSize.x) % levelSize.x,
+                (directionByPortal.y + levelSize.y) % levelSize.y
         );
         game.getCurrentLevel().setObjectOnField(snakeHead.getPosition(), new Empty());
-        snakeHead.setDirection(positionShouldBe);
-        game.getCurrentLevel().setObjectOnField(positionShouldBe, snakeHead);
+        snakeHead.setDirection(directionByPortal);
+        snakeHead.setPosition(exit.position);
+        game.getCurrentLevel().setObjectOnField(exit.position, snakeHead);
     }
 
     public Portal getExit() {
