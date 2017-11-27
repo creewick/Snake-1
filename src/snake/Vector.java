@@ -33,5 +33,10 @@ public class Vector {
     public Vector sum(Vector other) {
         return new Vector(x + other.x, y + other.y);
     }
+
+    public boolean isDeltaDirection() {
+        return Math.abs(this.x) == 1 && this.y == 0 ||
+                this.x == 0 && Math.abs(this.y) == 1;
+    }
 }
 

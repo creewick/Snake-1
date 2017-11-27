@@ -1,10 +1,7 @@
 package snake.fieldObjects;
 
 import javafx.util.Pair;
-import snake.Game;
-import snake.IFieldObject;
-import snake.ImageFileName;
-import snake.Vector;
+import snake.*;
 import snake.fieldObjects.listed.SnakeHead;
 
 import java.time.temporal.Temporal;
@@ -30,13 +27,11 @@ public class Portal implements IFieldObject {
     @Override
     public void intersectWithSnake(Game game) {
         SnakeHead snakeHead = game.getCurrentLevel().getSnake().getHead();
-        Vector snakeHeadDirection = snakeHead.getChild().getDirection();
-        Vector directionByPortal = exit.position.sum(snakeHeadDirection).subtract(snakeHead.getPosition());
-        Vector levelSize = game.getCurrentLevel().getLevelSize();
-        directionByPortal = new Vector(
-                (directionByPortal.x + levelSize.x) % levelSize.x,
-                (directionByPortal.y + levelSize.y) % levelSize.y
-        );
+        Vector directionByPortal;
+        if (snakeHead.getChild() != null)
+            directionByPortal = exit.position.subtract(snakeHead.getChild().getPosition());
+        else
+            directionByPortal = Direction.ZERO;
         game.getCurrentLevel().setObjectOnField(snakeHead.getPosition(), new Empty());
         snakeHead.setDirection(directionByPortal);
         snakeHead.setPosition(exit.position);

@@ -59,7 +59,9 @@ public class Level {
         Vector direction;
 
         if (snakeDirection == null ||
-                snake.getHead().getDirection().isOpposite(snakeDirection))
+                (snake.getHead().getDirection().isOpposite(snakeDirection) &&
+                snake.getHead().getDirection().isDeltaDirection() &&
+                snakeDirection.isDeltaDirection()))
             direction = snake.getHead().getDirection();
         else
             direction = snakeDirection;
