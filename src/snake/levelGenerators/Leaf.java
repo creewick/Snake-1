@@ -5,8 +5,8 @@ import snake.Vector;
 import java.util.Random;
 
 public class Leaf extends Rectangle {
-    private static final int MIN_LEAF_WIDTH = 6;
-    private static final int MIN_LEAF_HEIGHT = 6;
+    private static final int MIN_LEAF_WIDTH = 7;
+    private static final int MIN_LEAF_HEIGHT = 7;
     private static final double MAX_LIMIT_ASPECT = 1.25;
 
     private Leaf firstChild;

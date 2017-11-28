@@ -73,4 +73,81 @@ public class RectangleTest {
         assertFalse(rectangle.isIntersectWith(rectangleInside));
         assertFalse(rectangleInside.isIntersectWith(rectangle));
     }
+
+    @Test
+    public void isPointOnEdge_IfOnLeftEdge_True() {
+        Rectangle rectangle = new Rectangle(
+                new Vector(0, 0),
+                new Size(4, 4)
+        );
+        Vector point = new Vector(0, 2);
+
+        assertTrue(rectangle.isPointOnEdge(point));
+    }
+
+    @Test
+    public void isPointOnEdge_IfOnRightEdge_True() {
+        Rectangle rectangle = new Rectangle(
+                new Vector(0, 0),
+                new Size(4, 4)
+        );
+        Vector point = new Vector(3, 1);
+
+        assertTrue(rectangle.isPointOnEdge(point));
+    }
+
+    @Test
+    public void isPointOnEdge_IfOnTopEdge_True() {
+        Rectangle rectangle = new Rectangle(
+                new Vector(0, 0),
+                new Size(4, 4)
+        );
+        Vector point = new Vector(2, 0);
+
+        assertTrue(rectangle.isPointOnEdge(point));
+    }
+
+    @Test
+    public void isPointOnEdge_IfOnBottomEdge_True() {
+        Rectangle rectangle = new Rectangle(
+                new Vector(0, 0),
+                new Size(4, 4)
+        );
+        Vector point = new Vector(2, 3);
+
+        assertTrue(rectangle.isPointOnEdge(point));
+    }
+
+    @Test
+    public void isPointOnEdge_IfInside_False() {
+        Rectangle rectangle = new Rectangle(
+                new Vector(0, 0),
+                new Size(4, 4)
+        );
+        Vector point = new Vector(2, 2);
+
+        assertFalse(rectangle.isPointOnEdge(point));
+    }
+
+    @Test
+    public void isPointOnEdge_IfOutsideButSameY_False() {
+        Rectangle rectangle = new Rectangle(
+                new Vector(0, 0),
+                new Size(4, 4)
+        );
+        Vector point = new Vector(10, 0);
+
+        assertFalse(rectangle.isPointOnEdge(point));
+    }
+
+    @Test
+    public void isPointOnEdge_IfOutsideButSameX_False() {
+        Rectangle rectangle = new Rectangle(
+                new Vector(0, 0),
+                new Size(4, 4)
+        );
+        Vector point = new Vector(0, -2);
+
+        assertFalse(rectangle.isPointOnEdge(point));
+    }
 }

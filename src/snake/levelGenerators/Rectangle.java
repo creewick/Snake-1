@@ -15,9 +15,13 @@ public class Rectangle {
         setPosition(position);
         this.size = size;
         top = position.y;
-        bottom = position.y + size.getHeight();
+        bottom = position.y + size.getHeight() - 1;
         left = position.x;
-        right = position.x + size.getWidth();
+        right = position.x + size.getWidth() - 1;
+    }
+
+    public Rectangle(int x, int y, int width, int height) {
+        this(new Vector(x, y), new Size(width, height));
     }
 
     public void setPosition(Vector position) {
@@ -45,10 +49,10 @@ public class Rectangle {
     }
 
     public boolean isIntersectWith(Rectangle rectangle) {
-        return (left < rectangle.left && right > rectangle.left ||
-                left < rectangle.right && right > rectangle.right)
-                && (bottom > rectangle.bottom && top < rectangle.bottom ||
-                bottom > rectangle.top && top < rectangle.top);
+        boolean a = Math.max(left, rectangle.left) <= Math.min(right, rectangle.right);
+        boolean b = Math.max(top, rectangle.top) <= Math.min(bottom, rectangle.bottom);
+
+        return a && b;
     }
 
     public boolean isHaveCommonSides(Rectangle rectangle) {
@@ -72,5 +76,16 @@ public class Rectangle {
 
     public int getRight() {
         return right;
+    }
+
+    public Vector getPosition() {
+        return position;
+    }
+
+    public boolean isPointOnEdge(Vector point) {
+        return ((this.right == point.x || this.left == point.x) &&
+                    (point.y >= this.top && point.y <= this.bottom)) ||
+                ((this.top == point.y || this.bottom == point.y) &&
+                    (point.x >= this.left && point.x <= this.right));
     }
 }
