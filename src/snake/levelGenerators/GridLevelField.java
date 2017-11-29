@@ -38,11 +38,11 @@ public class GridLevelField {
     }
 
     public GridLevelField addPasses() {
-        for (int x = 0; x < width - 1; x++) {
+        for (int x = 0; x < width; x++) {
             array[0][x] = new Empty();
             array[height - 1][x] = new Empty();
         }
-        for (int y = 0; y < height - 1; y++) {
+        for (int y = 0; y < height; y++) {
             array[y][0] = new Empty();
             array[y][width - 1] = new Empty();
         }
@@ -57,24 +57,24 @@ public class GridLevelField {
     }
 
     public GridLevelField addDoors(List<Vector> doors) {
-        for (Vector door : doors) {
-            array[door.y][door.x] = new Empty();
-            Vector direction = Direction.ZERO;
-            if (door.x == 0)
-                direction = Direction.RIGHT;
-            if (door.x == width - 1)
-                direction = Direction.LEFT;
-            if (door.y == 0)
-                direction = Direction.BOTTOM;
-            if (door.y == height - 1)
-                direction = Direction.TOP;
-            Vector nextCell = door.sum(direction);
-            array[nextCell.y][nextCell.x] = new Empty();
-            if ((door.x == width - 1 && width % 2 == 0) || (door.y == height - 1 && height % 2 == 0)){
-                nextCell = nextCell.sum(direction);
-                array[nextCell.y][nextCell.x] = new Empty();
-            }
-        }
+//        for (Vector door : doors) {
+//            array[door.y][door.x] = new Empty();
+//            Vector direction = Direction.ZERO;
+//            if (door.x == 0)
+//                direction = Direction.RIGHT;
+//            if (door.x == width - 1)
+//                direction = Direction.LEFT;
+//            if (door.y == 0)
+//                direction = Direction.BOTTOM;
+//            if (door.y == height - 1)
+//                direction = Direction.TOP;
+//            Vector nextCell = door.sum(direction);
+//            array[nextCell.y][nextCell.x] = new Empty();
+//            if ((door.x == width - 1 && width % 2 == 0) || (door.y == height - 1 && height % 2 == 0)){
+//                nextCell = nextCell.sum(direction);
+//                array[nextCell.y][nextCell.x] = new Empty();
+//            }
+//        }
         return this;
     }
 
