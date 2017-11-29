@@ -18,6 +18,10 @@ public class Leaf extends Rectangle {
         secondChild = null;
     }
 
+    public Leaf(Leaf leaf) {
+        this(leaf.getX(), leaf.getY(), leaf.getWidth(), leaf.getHeight());
+    }
+
     public boolean trySplit() {
         Random random = new Random();
         boolean isSplitByVertical = random.nextDouble() > 0.5;

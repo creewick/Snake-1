@@ -49,17 +49,19 @@ public class Rectangle {
     }
 
     public boolean isIntersectWith(Rectangle rectangle) {
-        boolean a = Math.max(left, rectangle.left) <= Math.min(right, rectangle.right);
-        boolean b = Math.max(top, rectangle.top) <= Math.min(bottom, rectangle.bottom);
-
-        return a && b;
+        return Math.max(left, rectangle.left) <= Math.min(right, rectangle.right)
+                && Math.max(top, rectangle.top) <= Math.min(bottom, rectangle.bottom);
     }
 
     public boolean isHaveCommonSides(Rectangle rectangle) {
-        return left == rectangle.right || right == rectangle.right ||
-                right == rectangle.left || left == rectangle.left ||
-                top == rectangle.top || bottom == rectangle.top ||
-                top == rectangle.bottom || bottom == rectangle.bottom;
+        return (Math.max(left, rectangle.left) == Math.min(rectangle.right, right) + 1 &&
+                isSegmentsIntersect(top, bottom, rectangle.top, rectangle.bottom)) ||
+                (Math.max(top, rectangle.top) == Math.min(rectangle.bottom, bottom) + 1 &&
+                        isSegmentsIntersect(left, right, rectangle.left, rectangle.right));
+    }
+
+    public boolean isSegmentsIntersect(int firstStart, int firstEnd, int secondStart, int secondEnd) {
+        return Math.max(firstStart, secondStart) > Math.min(firstEnd, secondEnd);
     }
 
     public int getTop() {

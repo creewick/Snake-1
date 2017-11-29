@@ -9,10 +9,10 @@ import snake.fieldObjects.listed.SnakeHead;
 import java.util.*;
 
 public class RoomLevelGenerator implements ILevelGenerator {
-    private final int minRoomWidth = 5;
-    private final int minRoomHeight = 5;
+    private static final int minRoomWidth = 5;
+    private static final int minRoomHeight = 5;
     private final Random random = new Random();
-    private final HashMap<Rectangle, List<Vector>> exitPoints = new HashMap<>();
+    private HashMap<Rectangle, List<Vector>> exitPoints = new HashMap<>();
 
     public Level generateLevel(
             int width, int height,
@@ -25,6 +25,7 @@ public class RoomLevelGenerator implements ILevelGenerator {
     }
 
     public IFieldObject[][] generateField(int width, int height) {
+        exitPoints = new HashMap<>();
         List<Leaf> leafs = splitLevelOnLeafs(width, height);
         HashMap<Leaf, Leaf> neighbours = makeNeighbourConnections(leafs);
         HashMap<Leaf, Rectangle> rooms = generateRectanglesInLeafs(leafs);
@@ -84,15 +85,19 @@ public class RoomLevelGenerator implements ILevelGenerator {
             if (!rectangles.containsKey(parentLeaf))
                 continue;
 
-            List<Rectangle> hall = getHall(pair.getValue(), rectangles.get(parentLeaf));
-            for (Rectangle hallPart : hall) {
-                if (hallPart.isIntersectWith(pair.getValue()))
-                    addExitPoints(hallPart, pair.getValue());
-                if (hallPart.isIntersectWith(rectangles.get(parentLeaf)))
-                    addExitPoints(hallPart, rectangles.get(parentLeaf));
+            for (int i = 0; i < 2; i++) {
+                List<Rectangle> hall = getHall(pair.getValue(), rectangles.get(parentLeaf));
+                for (Rectangle hallPart : hall) {
+                    if (hallPart.isIntersectWith(pair.getValue()))
+                        addExitPoints(hallPart, pair.getValue());
+                    if (hallPart.isIntersectWith(rectangles.get(parentLeaf)))
+                        addExitPoints(hallPart, rectangles.get(parentLeaf));
+                }
+
+                result.addAll(hall);
             }
 
-            result.addAll(hall);
+
         }
 
         return result;

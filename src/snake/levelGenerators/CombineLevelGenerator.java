@@ -24,7 +24,10 @@ public class CombineLevelGenerator implements ILevelGenerator {
         return new Level(field, applesToGenerateAmount, snake);
     }
 
-    private IFieldObject[][] generateMazesInRooms(IFieldObject[][] field, HashMap<Rectangle, List<Vector>> exitPoints, GridLevelGenerator fieldGenerator) {
+    private IFieldObject[][] generateMazesInRooms(
+            IFieldObject[][] field, HashMap<Rectangle, List<Vector>> exitPoints,
+            GridLevelGenerator fieldGenerator
+    ) {
         for(Map.Entry<Rectangle, List<Vector>> exitPointsForOne : exitPoints.entrySet()) {
             IFieldObject[][] maze = fieldGenerator.generateField(
                 exitPointsForOne.getKey().getWidth(),
