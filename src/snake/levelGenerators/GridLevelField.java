@@ -27,31 +27,25 @@ public class GridLevelField {
     public GridLevelField addGrid() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (x % 2 == 0 || y % 2 == 0) {
+                if (x % 2 == 1 || y % 2 == 1) {
                     array[y][x] = new Wall();
                 } else {
                     array[y][x] = new Empty();
                 }
             }
         }
-        return this.fillBorders();
-    }
-
-    private GridLevelField fillBorders(){
-        if (width % 2 == 0){
-            for (int y = 0; y < height; y++) {
-                array[y][width-1] = new Wall();
-            }
-        }
-        if (height % 2 == 0){
-            for (int x = 0; x < width; x++) {
-                array[height-1][x] = new Wall();
-            }
-        }
         return this;
     }
 
     public GridLevelField addPasses() {
+        for (int x = 0; x < width - 1; x++) {
+            array[0][x] = new Empty();
+            array[height - 1][x] = new Empty();
+        }
+        for (int y = 0; y < height - 1; y++) {
+            array[y][0] = new Empty();
+            array[y][width - 1] = new Empty();
+        }
         for (int y = 1; y < height - 1; y+=2){
             for (int x = 1; x < width - 1; x+=2){
                 for (Vector vector : getTwoVectors(x, y)) {
@@ -88,13 +82,13 @@ public class GridLevelField {
         Vector[] result = new Vector[2];
         Random random = new Random();
         List<Vector> variants = new ArrayList<Vector>();
-        if (x > 1)
+        if (x > 0)
             variants.add(Direction.LEFT);
-        if (x < width - 3)
+        if (x < width - 1)
             variants.add(Direction.RIGHT);
-        if (y > 1)
+        if (y > 0)
             variants.add(Direction.TOP);
-        if (y < height - 3)
+        if (y < height - 1)
             variants.add(Direction.BOTTOM);
         result[0] = (variants.get(random.nextInt(variants.size())));
         variants.remove(result[0]);

@@ -26,8 +26,8 @@ public class GridLevelGenerator implements ILevelGenerator {
             );
         field = generateField(width, height, doors);
 
-        Snake snake = addSnake(1, 1);
-        field[3][3] = new Apple();
+        Snake snake = addSnake(0, 0);
+        field[4][4] = new Apple();
 
         return new Level(field, applesToGenerateAmount, snake);
     }
