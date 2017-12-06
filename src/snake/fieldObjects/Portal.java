@@ -15,13 +15,14 @@ public class Portal implements IFieldObject {
         setPosition(position);
     }
 
-    public static Pair<Portal, Portal> generatePortals(Vector first, Vector second) {
+    public static void generatePortalsOnLevel(Level level, Vector first, Vector second) {
         Portal firstPort = new Portal(first);
         Portal secondPort = new Portal(second);
         firstPort.setExit(secondPort);
         secondPort.setExit(firstPort);
 
-        return new Pair<>(firstPort, secondPort);
+        level.setObjectOnField(first, firstPort);
+        level.setObjectOnField(second, secondPort);
     }
 
     @Override

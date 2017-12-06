@@ -101,6 +101,10 @@ public class Level {
         return field[y][x];
     }
 
+    public IFieldObject getFieldObject(Vector position) {
+        return getFieldObject(position.x, position.y);
+    }
+
     public void setObjectOnField(Vector coordinates, IFieldObject object) {
         field[coordinates.y][coordinates.x] = object;
     }
