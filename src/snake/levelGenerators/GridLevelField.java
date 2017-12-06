@@ -46,8 +46,8 @@ public class GridLevelField {
             array[y][0] = new Empty();
             array[y][width - 1] = new Empty();
         }
-        for (int y = 1; y < height - 1; y+=2){
-            for (int x = 1; x < width - 1; x+=2){
+        for (int y = 0; y < height - 1; y+=2){
+            for (int x = 0; x < width - 1; x+=2){
                 for (Vector vector : getTwoVectors(x, y)) {
                     array[y+vector.y][x+vector.x] = new Empty();
                 }

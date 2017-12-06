@@ -18,13 +18,7 @@ public class GridLevelGenerator implements ILevelGenerator {
                                int applesToGenerateAmount) {
         this.width = width;
         this.height = height;
-        List<Vector> doors = Arrays.asList(
-                new Vector(0,0),
-                new Vector(width - 1, height - 1),
-                new Vector(2, 0),
-                new Vector(0, 18)
-            );
-        field = generateField(width, height, doors);
+        field = generateField(width, height);
 
         Snake snake = addSnake(0, 0);
         field[4][4] = new Apple();
@@ -32,11 +26,10 @@ public class GridLevelGenerator implements ILevelGenerator {
         return new Level(field, applesToGenerateAmount, snake);
     }
 
-    public IFieldObject[][] generateField(int width, int height, List<Vector> doors) {
+    public IFieldObject[][] generateField(int width, int height) {
         return new GridLevelField(width, height)
                 .addGrid()
                 .addPasses()
-                .addDoors(doors)
                 .toArray();
     }
 

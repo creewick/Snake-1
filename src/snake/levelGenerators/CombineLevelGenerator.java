@@ -31,8 +31,7 @@ public class CombineLevelGenerator implements ILevelGenerator {
         for(Map.Entry<Rectangle, List<Vector>> exitPointsForOne : exitPoints.entrySet()) {
             IFieldObject[][] maze = fieldGenerator.generateField(
                 exitPointsForOne.getKey().getWidth(),
-                exitPointsForOne.getKey().getHeight(),
-                exitPointsForOne.getValue()
+                exitPointsForOne.getKey().getHeight()
             );
 
             field = insertMazeIntoRoom(field, maze, exitPointsForOne.getKey().getPosition());
