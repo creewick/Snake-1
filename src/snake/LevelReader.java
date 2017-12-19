@@ -17,14 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class LevelReader {
-    private String fileName;
-    private static final HashMap<Character, IObjectCreator>
-            CHARACTER_TO_FIELD_OBJECT;
-    private IFieldObject[][] field;
-    private int appleCount;
-    private Snake snake;
-
+public final class LevelReader {
+    private static final HashMap<Character, IObjectCreator> CHARACTER_TO_FIELD_OBJECT;
+    
     static {
         CHARACTER_TO_FIELD_OBJECT = new HashMap<>();
         CHARACTER_TO_FIELD_OBJECT.put('#',
@@ -37,11 +32,19 @@ public class LevelReader {
         CHARACTER_TO_FIELD_OBJECT.put('H', SnakeHead::new);
     }
 
-    public LevelReader(String fileName) {
-        this.fileName = fileName;
+    public Level loadLevel(int number) throws IllegalAccessException,
+            InstantiationException, NoSuchMethodException,
+            InvocationTargetException, IOException {
+        return loadLevelByFileName(String.format("level{0}.txt", number));
     }
 
-    public Level getLevel() throws IllegalAccessException,
+    public Level loadSave(int number) throws IllegalAccessException,
+            InstantiationException, NoSuchMethodException,
+            InvocationTargetException, IOException {
+        return loadLevelByFileName(String.format("{0}.save", number));
+    }
+
+    private Level loadLevelByFileName(String fileName) throws IllegalAccessException,
             InstantiationException, NoSuchMethodException,
             InvocationTargetException, IOException {
         fillFieldAndCreateSnake();
@@ -54,7 +57,7 @@ public class LevelReader {
             InstantiationException, IOException {
 
         List<String> lines = Files.readAllLines(
-                Paths.get(Settings.LEVEL_URL +fileName),
+                Paths.get(Settings.LEVEL_URL + fileNameMask),
                 StandardCharsets.UTF_8);
 
         try {
