@@ -22,6 +22,7 @@ public class LevelReader {
     private static final HashMap<Character, IObjectCreator>
             CHARACTER_TO_FIELD_OBJECT;
     private IFieldObject[][] field;
+    private int appleCount;
     private Snake snake;
 
     static {
@@ -45,7 +46,7 @@ public class LevelReader {
             InvocationTargetException, IOException {
         fillFieldAndCreateSnake();
         fillSnakePartsDirections();
-        return null;
+        return new Level(field, appleCount, snake);
     }
 
     private void fillFieldAndCreateSnake() throws NoSuchMethodException,
@@ -57,13 +58,13 @@ public class LevelReader {
                 StandardCharsets.UTF_8);
 
         try {
-            field = new IFieldObject[lines.size()][lines.get(0).length()];
+            field = new IFieldObject[lines.size() - 1][lines.get(0).length()];
         } catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("File is empty. Can't create a new level");
         }
         List<SnakePart> snakeParts = new ArrayList<>();
         SnakeHead head = null;
-        for(int i = 0; i < lines.size(); i++){
+        for(int i = 0; i < lines.size() - 1; i++){
             for (int j = 0; j < lines.get(i).length(); j++){
                 Character symbol = lines.get(i).charAt(j);
                 field[i][j] = CHARACTER_TO_FIELD_OBJECT.get(symbol)
@@ -78,6 +79,7 @@ public class LevelReader {
             }
         }
         createSnake(head,snakeParts);
+        appleCount = Integer.parseInt(lines.get(lines.size() - 1));
     }
 
     private void createSnake(SnakeHead head, List<SnakePart> snakeParts){
