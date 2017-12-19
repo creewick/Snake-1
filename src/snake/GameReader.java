@@ -35,13 +35,13 @@ public final class GameReader {
     public static Game readGame(int number) throws IllegalAccessException,
             InstantiationException, NoSuchMethodException,
             InvocationTargetException, IOException {
-        return loadLevelByFileName(String.format("level{0}.txt", number));
+        return loadLevelByFileName(String.format("level%d.txt", number));
     }
 
     public static Game readSave(int number) throws IllegalAccessException,
             InstantiationException, NoSuchMethodException,
             InvocationTargetException, IOException {
-        return loadLevelByFileName(String.format("{0}.save", number));
+        return loadLevelByFileName(String.format("%d.save", number));
     }
 
     private static Game loadLevelByFileName(String fileName) throws IllegalAccessException,
@@ -94,39 +94,6 @@ public final class GameReader {
         Snake snake = createSnake(head, snakeParts, field);
         return fillSnakePartsDirections(snake);
     }
-
-//    private void fillFieldAndCreateSnake() throws NoSuchMethodException,
-//            IllegalAccessException, InvocationTargetException,
-//            InstantiationException, IOException {
-//
-//        List<String> lines = Files.readAllLines(
-//                Paths.get(Settings.LEVEL_URL + fileNameMask),
-//                StandardCharsets.UTF_8);
-//
-//        try {
-//            field = new IFieldObject[lines.size() - 1][lines.get(0).length()];
-//        } catch (IndexOutOfBoundsException e){
-//            throw new IllegalArgumentException("File is empty. Can't create a new level");
-//        }
-//        List<SnakePart> snakeParts = new ArrayList<>();
-//        SnakeHead head = null;
-//        for(int i = 0; i < lines.size() - 1; i++){
-//            for (int j = 0; j < lines.get(i).length(); j++){
-//                Character symbol = lines.get(i).charAt(j);
-//                field[i][j] = CHARACTER_TO_FIELD_OBJECT.get(symbol)
-//                        .createFieldObject(
-//                                j, i, null,null,null);
-//                if(symbol == 'S'){
-//                    snakeParts.add((SnakePart) field[i][j]);
-//                }
-//                if(symbol == 'H'){
-//                    head = (SnakeHead) field[i][j];
-//                }
-//            }
-//        }
-//        createSnake(head,snakeParts);
-//        appleCount = Integer.parseInt(lines.get(lines.size() - 1));
-//    }
 
     private static Snake createSnake(SnakeHead head, List<SnakePart> snakeParts, IFieldObject[][] field){
         Snake snake = new Snake(head);

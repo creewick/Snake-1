@@ -40,7 +40,13 @@ public class KeysListener implements KeyListener {
             if (e.isShiftDown()) {
                 GameWriter.writeSave(parent.getGame(), number);
             } else {
-                parent.loadGame(GameReader.readSave(number));
+                try {
+                    parent.loadGame(GameReader.readSave(number));
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
         }
     }
