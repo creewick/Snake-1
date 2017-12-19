@@ -4,7 +4,7 @@ import snake.Game;
 import snake.IFieldObject;
 import snake.ImageFileName;
 
-@ImageFileName(fileNames = "apple.jpg")
+@ImageFileName(fileNames = "apple.png")
 public class Apple implements IFieldObject {
     @Override
     public void intersectWithSnake(Game game) {

@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class FieldReader {
+public class LevelReader {
     private String fileName;
     private static final HashMap<Character, IObjectCreator>
             CHARACTER_TO_FIELD_OBJECT;
@@ -36,12 +36,16 @@ public class FieldReader {
         CHARACTER_TO_FIELD_OBJECT.put('H', SnakeHead::new);
     }
 
-    public FieldReader(String fileName) throws IllegalAccessException,
+    public LevelReader(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public Level getLevel() throws IllegalAccessException,
             InstantiationException, NoSuchMethodException,
             InvocationTargetException, IOException {
-        this.fileName = fileName;
         fillFieldAndCreateSnake();
         fillSnakePartsDirections();
+        return null;
     }
 
     private void fillFieldAndCreateSnake() throws NoSuchMethodException,
@@ -148,13 +152,5 @@ public class FieldReader {
 
         }
         current.setDirection(Direction.ZERO);
-    }
-
-    public IFieldObject[][] getField() {
-        return field;
-    }
-
-    public Snake getSnake() {
-        return snake;
     }
 }
