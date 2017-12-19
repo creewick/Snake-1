@@ -3,6 +3,7 @@ package snakeGUI;
 import snake.Game;
 import snake.TurnException;
 import snake.Vector;
+import snake.levelGenerators.Size;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,8 +11,8 @@ import java.awt.event.ActionListener;
 
 class MainSnakeWindow extends JFrame
 {
-    private int sizeWidth;
-    private int sizeHeight;
+    private Game game;
+    private Size size;
     private int cellSize;
     private Timer timer;
     Vector playerDirection;
@@ -23,15 +24,21 @@ class MainSnakeWindow extends JFrame
         super("Snake");
     }
 
+    public Game getGame() {
+        return game;
+    }
+
     public void loadGame(Game game) {
+        this.game = game;
+
         setWindowSizeConstants(game);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.setSize(sizeWidth, sizeHeight);
+        mainPanel.setSize(size.getWidth(), size.getHeight());
 
         scorePanel = new ScorePanel(
-                "Уровень 1", 0, sizeWidth, 30);
+                "Уровень 1", 0, size.getWidth(), 30);
         fieldPanel = new FieldPanel(game.getCurrentLevel(), cellSize);
 
         mainPanel.add(scorePanel, BorderLayout.NORTH);
@@ -48,7 +55,7 @@ class MainSnakeWindow extends JFrame
         timer = new Timer(Settings.FREQUENCY, timerTick(game));
         timer.start();
 
-        setSize(sizeWidth, sizeHeight);
+        setSize(size.getWidth(), size.getHeight());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         setResizable(false);
@@ -87,13 +94,13 @@ class MainSnakeWindow extends JFrame
         Vector levelSize = game.getCurrentLevel().getLevelSize();
         cellSize = calculateCellSize(maxWidth, maxHeight, levelSize.x, levelSize.y);
 
-        sizeWidth = cellSize * levelSize.x + 17;
-        sizeHeight = cellSize * levelSize.y + 70;
+        size = new Size(cellSize * levelSize.x + 17, cellSize * levelSize.y + 70
+        );
     }
 
     private int calculateCellSize(
             int width, int height, int fieldWidth, int fieldHeight) {
-        return Math.min(width / fieldWidth, height / fieldHeight);
+        return Math.min(width / fieldWidth, height / fieldHeight)                                                       ;
     }
 
     private void endGame(boolean isWin) {

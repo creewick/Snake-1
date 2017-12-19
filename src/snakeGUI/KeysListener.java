@@ -1,6 +1,8 @@
 package snakeGUI;
 
 import snake.Direction;
+import snake.GameReader;
+import snake.GameWriter;
 import snake.Vector;
 
 import java.awt.event.KeyEvent;
@@ -8,38 +10,37 @@ import java.awt.event.KeyListener;
 import java.util.Hashtable;
 
 public class KeysListener implements KeyListener {
-    private String fileNameMask;
     private MainSnakeWindow parent;
-    private Hashtable<Integer, Vector> vectors;
+    private Hashtable<Integer, Vector> keys;
 
-    KeysListener(MainSnakeWindow parent, String fileNameMask) {
+    KeysListener(MainSnakeWindow parent) {
         super();
         this.parent = parent;
-        this.fileNameMask = fileNameMask;
 
-        initVectors();
+        initKeys();
     }
 
-    private void initVectors() {
-        vectors = new Hashtable<>();
-        vectors.put(KeyEvent.VK_LEFT, Direction.LEFT);
-        vectors.put(KeyEvent.VK_DOWN, Direction.BOTTOM);
-        vectors.put(KeyEvent.VK_RIGHT, Direction.RIGHT);
-        vectors.put(KeyEvent.VK_UP, Direction.TOP);
+    private void initKeys() {
+        keys = new Hashtable<>();
+        keys.put(KeyEvent.VK_LEFT, Direction.LEFT);
+        keys.put(KeyEvent.VK_DOWN, Direction.BOTTOM);
+        keys.put(KeyEvent.VK_RIGHT, Direction.RIGHT);
+        keys.put(KeyEvent.VK_UP, Direction.TOP);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        Integer keyCode = e.getKeyCode();
+        int keyCode = e.getKeyCode();
 
-        if (vectors.containsKey(keyCode))
-            parent.playerDirection = vectors.get(keyCode);
-
+        if (keys.containsKey(keyCode))
+            parent.playerDirection = keys.get(keyCode);
         if (keyCode >= KeyEvent.VK_0 && keyCode <= KeyEvent.VK_9) {
+            int number = keyCode - KeyEvent.VK_0;
+
             if (e.isShiftDown()) {
-
+                GameWriter.writeSave(parent.getGame(), number);
             } else {
-
+                parent.loadGame(GameReader.readSave(number));
             }
         }
     }
