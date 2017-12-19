@@ -19,8 +19,11 @@ class MainSnakeWindow extends JFrame
     private FieldPanel fieldPanel;
     private ScorePanel scorePanel;
 
-    MainSnakeWindow(Game game) {
+    MainSnakeWindow() {
         super("Snake");
+    }
+
+    public void loadGame(Game game) {
         setWindowSizeConstants(game);
 
         JPanel mainPanel = new JPanel();
@@ -40,7 +43,7 @@ class MainSnakeWindow extends JFrame
     }
 
     private void setStartSettings(Game game) {
-        addKeyListener(new ArrowKeysListener(this));
+        addKeyListener(new KeysListener(this));
 
         timer = new Timer(Settings.FREQUENCY, timerTick(game));
         timer.start();

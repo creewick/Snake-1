@@ -13,6 +13,6 @@ public class Program {
   //      levels[0] = new CombineLevelGenerator().generateLevel(60, 30, 2, 5);
         Level level = new LevelReader("level7.txt").getLevel();
         Game game = new Game(level);
-        new MainSnakeWindow(game);
+        new MainSnakeWindow().loadGame(game);
     }
 }
