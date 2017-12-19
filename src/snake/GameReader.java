@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public final class LevelReader {
+public final class GameReader {
     private static final HashMap<Character, IObjectCreator> CHARACTER_TO_FIELD_OBJECT;
     
     static {
@@ -32,47 +32,57 @@ public final class LevelReader {
         CHARACTER_TO_FIELD_OBJECT.put('H', SnakeHead::new);
     }
 
-    public Level loadLevel(int number) throws IllegalAccessException,
+    public static Game readGame(int number) throws IllegalAccessException,
             InstantiationException, NoSuchMethodException,
             InvocationTargetException, IOException {
         return loadLevelByFileName(String.format("level{0}.txt", number));
     }
 
-    public Level loadSave(int number) throws IllegalAccessException,
+    public static Game readSave(int number) throws IllegalAccessException,
             InstantiationException, NoSuchMethodException,
             InvocationTargetException, IOException {
         return loadLevelByFileName(String.format("{0}.save", number));
     }
 
-    private Level loadLevelByFileName(String fileName) throws IllegalAccessException,
+    private static Game loadLevelByFileName(String fileName) throws IllegalAccessException,
             InstantiationException, NoSuchMethodException,
             InvocationTargetException, IOException {
-        fillFieldAndCreateSnake();
-        fillSnakePartsDirections();
-        return new Level(field, appleCount, snake);
+        IFieldObject[][] field = getField(fileName);
+        Snake snake = getSnake(fileName, field);
+        Level level = new Level(field, 10, snake);
+        return new Game(level);
     }
 
-    private void fillFieldAndCreateSnake() throws NoSuchMethodException,
-            IllegalAccessException, InvocationTargetException,
-            InstantiationException, IOException {
-
+    private static IFieldObject[][] getField(String fileName) throws IOException {
         List<String> lines = Files.readAllLines(
-                Paths.get(Settings.LEVEL_URL + fileNameMask),
+                Paths.get(Settings.LEVEL_URL + fileName),
                 StandardCharsets.UTF_8);
-
+        IFieldObject[][] field;
         try {
             field = new IFieldObject[lines.size() - 1][lines.get(0).length()];
         } catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("File is empty. Can't create a new level");
         }
-        List<SnakePart> snakeParts = new ArrayList<>();
-        SnakeHead head = null;
         for(int i = 0; i < lines.size() - 1; i++){
             for (int j = 0; j < lines.get(i).length(); j++){
                 Character symbol = lines.get(i).charAt(j);
                 field[i][j] = CHARACTER_TO_FIELD_OBJECT.get(symbol)
                         .createFieldObject(
                                 j, i, null,null,null);
+            }
+        }
+        return field;
+    }
+
+    private static Snake getSnake(String fileName, IFieldObject[][] field) throws IOException {
+        List<String> lines = Files.readAllLines(
+                Paths.get(Settings.LEVEL_URL + fileName),
+                StandardCharsets.UTF_8);
+        List<SnakePart> snakeParts = new ArrayList<>();
+        SnakeHead head = null;
+        for(int i = 0; i < lines.size() - 1; i++){
+            for (int j = 0; j < lines.get(i).length(); j++){
+                Character symbol = lines.get(i).charAt(j);
                 if(symbol == 'S'){
                     snakeParts.add((SnakePart) field[i][j]);
                 }
@@ -81,21 +91,53 @@ public final class LevelReader {
                 }
             }
         }
-        createSnake(head,snakeParts);
-        appleCount = Integer.parseInt(lines.get(lines.size() - 1));
+        Snake snake = createSnake(head, snakeParts, field);
+        return fillSnakePartsDirections(snake);
     }
 
-    private void createSnake(SnakeHead head, List<SnakePart> snakeParts){
+//    private void fillFieldAndCreateSnake() throws NoSuchMethodException,
+//            IllegalAccessException, InvocationTargetException,
+//            InstantiationException, IOException {
+//
+//        List<String> lines = Files.readAllLines(
+//                Paths.get(Settings.LEVEL_URL + fileNameMask),
+//                StandardCharsets.UTF_8);
+//
+//        try {
+//            field = new IFieldObject[lines.size() - 1][lines.get(0).length()];
+//        } catch (IndexOutOfBoundsException e){
+//            throw new IllegalArgumentException("File is empty. Can't create a new level");
+//        }
+//        List<SnakePart> snakeParts = new ArrayList<>();
+//        SnakeHead head = null;
+//        for(int i = 0; i < lines.size() - 1; i++){
+//            for (int j = 0; j < lines.get(i).length(); j++){
+//                Character symbol = lines.get(i).charAt(j);
+//                field[i][j] = CHARACTER_TO_FIELD_OBJECT.get(symbol)
+//                        .createFieldObject(
+//                                j, i, null,null,null);
+//                if(symbol == 'S'){
+//                    snakeParts.add((SnakePart) field[i][j]);
+//                }
+//                if(symbol == 'H'){
+//                    head = (SnakeHead) field[i][j];
+//                }
+//            }
+//        }
+//        createSnake(head,snakeParts);
+//        appleCount = Integer.parseInt(lines.get(lines.size() - 1));
+//    }
+
+    private static Snake createSnake(SnakeHead head, List<SnakePart> snakeParts, IFieldObject[][] field){
         Snake snake = new Snake(head);
         List<SnakePart> neighbors =
-                getNearbySnakeParts(getNeighbours(head), snakeParts);
-        constructSnake(neighbors, snake, snakeParts);
-        this.snake = snake;
+                getNearbySnakeParts(getNeighbours(head, field), snakeParts);
+        constructSnake(neighbors, snake, snakeParts, field);
+        return snake;
     }
 
-    private List<SnakePart> getNearbySnakeParts(
-            List<IFieldObject> neighbours,
-            List<SnakePart> snakeParts){
+    private static List<SnakePart> getNearbySnakeParts(List<IFieldObject> neighbours,
+                                                       List<SnakePart> snakeParts){
         List<SnakePart> nearbySnakeParts = new ArrayList<>();
         for (IFieldObject neighbour : neighbours) {
             if (neighbour instanceof SnakePart && snakeParts.contains(neighbour)) {
@@ -105,19 +147,17 @@ public final class LevelReader {
         return nearbySnakeParts;
     }
 
-    private void constructSnake(
-            List<SnakePart> nearbySnakeParts,
-            Snake snake,
-            List<SnakePart> snakeParts){
+    private static void constructSnake( List<SnakePart> nearbySnakeParts, Snake snake,
+                                        List<SnakePart> snakeParts, IFieldObject[][] field){
         SnakePart next;
         for (SnakePart nearbySnakePart : nearbySnakeParts) {
             next = nearbySnakePart;
             snake.addPart(next);
             snakeParts.remove(next);
             List<SnakePart> tmp = getNearbySnakeParts(
-                    getNeighbours(nearbySnakePart),
+                    getNeighbours(nearbySnakePart, field),
                     snakeParts);
-            constructSnake(tmp, snake, snakeParts);
+            constructSnake(tmp, snake, snakeParts, field);
         }
         if(snakeParts.size()!=0){
             snakeParts.add(snake.getTail());
@@ -125,13 +165,12 @@ public final class LevelReader {
         }
     }
 
-    private List<IFieldObject> getNeighbours(SnakePart center){
+    private static List<IFieldObject> getNeighbours(SnakePart center, IFieldObject[][] field){
         List<Vector> offset = Arrays.asList(
                 Direction.LEFT,
                 Direction.RIGHT,
                 Direction.BOTTOM,
                 Direction.TOP);
-
         List<IFieldObject> neighbours = new ArrayList<>();
         for (Vector anOffset : offset) {
             Vector neighbour = center.getPosition().sum(anOffset);
@@ -144,7 +183,7 @@ public final class LevelReader {
         return neighbours;
     }
 
-    private void fillSnakePartsDirections(){
+    private static Snake fillSnakePartsDirections(Snake snake){
         SnakePart current = snake.getHead();
         SnakePart next = snake.getHead().getChild();
         while (next != null) {
@@ -157,5 +196,6 @@ public final class LevelReader {
 
         }
         current.setDirection(Direction.ZERO);
+        return snake;
     }
 }
