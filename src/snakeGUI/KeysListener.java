@@ -38,14 +38,16 @@ public class KeysListener implements KeyListener {
             int number = keyCode - KeyEvent.VK_0;
 
             if (e.isShiftDown()) {
-                GameWriter.writeSave(parent.getGame(), number);
+                try {
+                    GameWriter.writeSave(parent.getGame(), number);
+                } catch (Exception ex) {
+                    System.out.println("Saving level failed.");
+                }
             } else {
                 try {
                     parent.loadGame(GameReader.readSave(number));
-                }
-                catch (Exception ex)
-                {
-
+                } catch (Exception ex) {
+                    System.out.println("Loading level failed.");
                 }
             }
         }

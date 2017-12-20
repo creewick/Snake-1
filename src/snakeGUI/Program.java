@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 public class Program {
     public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException,
             IOException, IllegalAccessException {
-        Game game = GameReader.readGame(7);
+        Game game = GameReader.readGame(2);
         new MainSnakeWindow().loadGame(game);
     }
 }

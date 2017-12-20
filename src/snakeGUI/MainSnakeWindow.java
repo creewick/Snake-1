@@ -29,6 +29,10 @@ class MainSnakeWindow extends JFrame
     }
 
     public void loadGame(Game game) {
+        if (timer != null) {
+            timer.stop();
+        }
+
         this.game = game;
 
         setWindowSizeConstants(game);
